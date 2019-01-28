@@ -1048,8 +1048,10 @@ public class AddressBook {
      * @param name to be validated
      */
     private static boolean isPersonNameValid(String name) {
-        return name.matches("(\\w|\\s)+");  // name is nonempty mixture of alphabets and whitespace
-        //TODO: implement a more permissive validation
+        return name.matches("\\w+((,?)\\s\\w+)*");
+        // Valid name is can only have one whitespace in between words, e.g. John Doe
+        // Comma between words is optional, e.g. John, Doe
+        // No limit on number of words or length of words
     }
 
     /**
@@ -1058,8 +1060,15 @@ public class AddressBook {
      * @param phone to be validated
      */
     private static boolean isPersonPhoneValid(String phone) {
-        return phone.matches("\\d+");    // phone nonempty sequence of digits
-        //TODO: implement a more permissive validation
+        return phone.matches("(\\+?65\\s)?(\\d{8}|\\d{4}\\s\\d{4})");
+        // Phone number can be in the following forms
+        // 1. +65 xxxx xxxx
+        // 2. 65 xxxx xxxx
+        // 3. xxxx xxxx
+        // 4. +65 xxxxxxxx
+        // 5. 65 xxxxxxxx
+        // 6. xxxxxxxx
+
     }
 
     /**
@@ -1069,8 +1078,9 @@ public class AddressBook {
      * @return whether arg is a valid person email
      */
     private static boolean isPersonEmailValid(String email) {
-        return email.matches("\\S+@\\S+\\.\\S+"); // email is [non-whitespace]@[non-whitespace].[non-whitespace]
-        //TODO: implement a more permissive validation
+        return email.matches("\\S+@\\w+(\\.\\w+)+");
+        // email is [non-whitespace]@[non-whitespace].[non-whitespace]
+        // for example, domain can be gmail.com, u.nus.edu, etc
     }
 
 
